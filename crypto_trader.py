@@ -810,7 +810,6 @@ class CryptoTrader:
         # 启动登录状态监控
         self.start_login_monitoring()
         # 启动自动更新URL任务
-        
         self.auto_update_url()
         self.logger.info("自动更新URL任务启动完成")
 
@@ -2756,12 +2755,9 @@ class CryptoTrader:
 
     def auto_update_url(self):
         """自动更新URL(每周六凌晨1:30开始)"""
-        self.logger.info("启动自动更新URL任务")
         def is_time_to_update():
             """检查是否到了更新时间(每周六凌晨1:30)"""
             now = datetime.now(timezone(timedelta(hours=8)))  # 转换为东八区时间
-            # 打印当前时间信息用于调试
-            # self.logger.info(f"当前时间: {now.strftime('%Y-%m-%d %H:%M:%S')}, 星期{now.weekday()}")
             # 周六是6 (周一是0)
             should_update = now.weekday() == 6 and now.hour == 1 and now.minute >= 10
             return should_update
@@ -2788,11 +2784,8 @@ class CryptoTrader:
         def update_task():
             """更新任务"""
             try:
-                self.logger.info("=== 自动更新任务线程开始运行 ===")
                 # 立即进行一次时间检查
-                
                 is_time_to_update()
-
                 while True:
                     try:
                         # 检查是否到了更新时间
@@ -2839,7 +2832,6 @@ class CryptoTrader:
         try:
             update_thread = Thread(target=update_task, daemon=True, name="URL_Update_Thread")
             update_thread.start()
-            self.logger.info(f"自动更新URL线程已启动: {update_thread.name}, 是否存活: {update_thread.is_alive()}")
         except Exception as e:
             self.logger.error(f"启动自动更新线程失败: {str(e)}")
 
